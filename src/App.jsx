@@ -244,39 +244,7 @@ const useSmoothScroll = () => {
   }, []);
 };
 
-const CustomCursor = () => {
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState(false);
-  const isDesktop = typeof window !== 'undefined' && window.matchMedia("(min-width: 768px)").matches;
 
-  useEffect(() => {
-    if (!isDesktop) return;
-    const handleMouseMove = (e) => setPosition({ x: e.clientX, y: e.clientY });
-    const handleEnter = () => setIsHovering(true);
-    const handleLeave = () => setIsHovering(false);
-
-    window.addEventListener('mousemove', handleMouseMove);
-    const els = document.querySelectorAll('a, button, input, textarea');
-    els.forEach(el => {
-      el.addEventListener('mouseenter', handleEnter);
-      el.addEventListener('mouseleave', handleLeave);
-    });
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-      els.forEach(el => {
-        el.removeEventListener('mouseenter', handleEnter);
-        el.removeEventListener('mouseleave', handleLeave);
-      });
-    };
-  }, [isDesktop]);
-
-  if (!isDesktop) return null;
-  return (
-    <div className="fixed pointer-events-none z-[100] transition-transform duration-100" style={{ left: `${position.x}px`, top: `${position.y}px`, transform: `translate(-50%, -50%) scale(${isHovering ? 1.5 : 1})` }}>
-      <Cloud className="w-6 h-6 text-[#00A1E0] opacity-80" />
-    </div>
-  );
-};
 
 const CanvasBackground = () => (
   <div className="fixed top-0 left-0 w-full h-full z-0">
@@ -359,7 +327,7 @@ const Hero = () => (
         <a href="#projects" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-sf-blue text-white font-medium hover:bg-blue-500 transition-all duration-300 shadow-[0_0_20px_rgba(0,161,224,0.4)] hover:shadow-[0_0_30px_rgba(0,161,224,0.6)] flex items-center justify-center gap-2 text-lg transform hover:scale-105">
           View My Work <ExternalLink className="w-5 h-5" />
         </a>
-        <a href="#contact" className="w-full sm:w-auto px-8 py-4 rounded-xl border border-sf-blue/50 text-sf-blue hover:bg-sf-blue hover:text-white transition-all duration-300 flex items-center justify-center text-lg font-semibold transform hover:scale-110 hover:shadow-[0_0_25px_rgba(0,161,224,0.6)] hover:rotate-2 group relative overflow-hidden">
+        <a href="#contact" className="w-full sm:w-auto px-8 py-4 rounded-xl border border-sf-blue/50 text-sf-blue hover:bg-sf-blue hover:text-white transition-all duration-300 flex items-center justify-center text-lg font-semibold transform hover:scale-110 hover:shadow-[0_0_25px_rgba(0,161,224,0.6)] hover:rotate-3 group relative overflow-hidden">
           <span className="relative z-10">Contact Me</span>
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
         </a>
@@ -656,7 +624,20 @@ const App = () => {
     <div className="bg-[#0a0f16] text-white min-h-screen font-sans selection:bg-[#00A1E0] relative overflow-x-hidden">
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        
+        /* Apply 80% zoom scaling globally for Desktop */
+        html {
+          zoom: 0.8;
+          -moz-transform: scale(0.8);
+          -moz-transform-origin: 0 0;
+        }
+
+        body { 
+          font-family: 'Inter', sans-serif; 
+          overflow-x: hidden;
+          background: #0a0f16;
+        }
+        
         .glass { background: rgba(16, 23, 35, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
         .glass-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
         .glass-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.04); }
@@ -671,14 +652,17 @@ const App = () => {
         ::-webkit-scrollbar-track { background: #0a0f16; }
         ::-webkit-scrollbar-thumb { background: #00A1E0; border-radius: 10px; }
         
-        /* Mobile specific fixes to prevent bulky/messy UI without affecting desktop sizing */
+        /* Reset zoom for mobile so it stays responsive and professional */
         @media (max-width: 768px) {
+          html {
+            zoom: 1;
+            -moz-transform: none;
+          }
           .glass-card { padding: 1.25rem; }
           section { padding-top: 4rem; padding-bottom: 4rem; }
         }
       `}</style>
       <ScrollProgress />
-      <CustomCursor />
       <CanvasBackground />
       <Navbar />
       <main>
