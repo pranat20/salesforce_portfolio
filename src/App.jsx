@@ -1,64 +1,103 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Briefcase, Code, Terminal, GraduationCap, Link, Download, Mail, BookOpen, Layers, User } from 'lucide-react';
+import { 
+  Briefcase, Code, Terminal, GraduationCap, Download, Mail, BookOpen, Layers, Github, Linkedin, ExternalLink,
+  Cloud
+} from 'lucide-react';
+import { 
+  SiSalesforce, SiGithub, 
+  SiPostman, SiGit, SiPython, 
+  SiPostgresql, SiNodedotjs, SiDjango 
+} from 'react-icons/si';
+import { VscJson, VscCode } from 'react-icons/vsc'; 
+import { FaJava } from 'react-icons/fa';
 
-// =================================================================
-// 🚨🚨 1. IMAGE IMPORTS: CORRECTED FILE NAMES AND PATHS
-// The paths below MUST exactly match the spelling, capitalization, and spacing 
-// of the files inside your 'assets/certificates' folder.
-// =================================================================
-
-import DeloitteCert from './assets/certificates/Deloitte.jpg'; 
-import PythonCert from './assets/certificates/Data science.png'; // Corrected file extension and case
-import CentradoKit from './assets/certificates/Street light.png'; // Corrected file extension and case
-import Technocrats from './assets/certificates/Techethon Certificate .jpg'; // Corrected file name/extension
-import UIUXCert from './assets/certificates/UI UX.png'; // Corrected file name/extension
-import WebDevIntern from './assets/certificates/Elite.png'; // Corrected file name/extension
-import IlluminateWorkshop from './assets/certificates/Illuminate Certificate.jpg'; // Corrected file name/extension
-import CrafterverseHackathon from './assets/certificates/Craftverse Certificate hackathon.jpg'; // Corrected file name/extension
-import ProfileImage from './assets/certificates/Photo.jpg';
+// Image & Document Imports
+import ProfileImage from './assets/certificates/Photo.jpeg';
 import ResumePDF from './assets/certificates/Pranat_Pagar_Resume_Magic.pdf';
 
+// Updated Certificate Imports
+import CiscoModernAI from './assets/certificates/Cisco Modern AI.png';
+import NetworkingBasics from './assets/certificates/Networking_Basics_certificate_ppagar602-gmail-com_8cf1b6d3-0f44-471f-b3b6-74c9043a6506.png';
+import IBMChatbot from './assets/certificates/IBM chatbot certificate.png';
+import EdunetAI from './assets/certificates/Edunet Certificate.png';
+import IITBNEC from './assets/certificates/Certificate of Pranat Yogesh Pagar.png';
+import GeminiCertified from './assets/certificates/Gemini Certified.png';
+import ElementsOfAI from './assets/certificates/Elements of AI.png';
+import DeloitteCert from './assets/certificates/Deloitte.jpg';
+import DataScienceCert from './assets/certificates/Data science.png';
+import EliteCert from './assets/certificates/Elite.png';
+import IlluminateCert from './assets/certificates/Illuminate Certificate.jpg';
+import TechethonCert from './assets/certificates/Techethon Certificate .jpg';
+import UIUXCert from './assets/certificates/UI UX.png';
+import Elevate from './assets/certificates/elevate.png';
 
-// --- Configuration Data ---
 const config = {
   colors: {
-    primary: '#3B82F6', // Deep Blue Accent (New primary color)
-    secondary: '#1E3A8A', // Richer Dark Blue (for button/nav hover and footer background)
-    background: '#0F172A', // Deep Navy Blue (Formal Background)
-    text: '#F1F5F9', // Light Off-White Text
-    card: '#1F2937', // Slightly lighter card background
-    detail: '#5C747B', // Muted gray for dividers/less important items
+    primary: '#00A1E0',
+    secondary: '#00E0B8',
+    background: '#0a0f16',
+    text: '#ffffff',
+    card: 'rgba(255, 255, 255, 0.03)',
+    detail: 'rgba(255, 255, 255, 0.08)',
+    dark: '#111827',
   },
   info: {
     name: "Pranat Pagar",
-    tagline: "Software Development Engineer | Full Stack | AI/ML",
-    profilePic: ProfileImage, // Placeholder image - REPLACE THIS URL
+    tagline: "Salesforce Developer | Full Stack",
+    profilePic: ProfileImage,
     linkedin: "https://linkedin.com/in/pranat-pagar-457469291",
     github: "https://github.com/pranat20",
-    email: "ppagar602@gmail.com",
-    resumeLink: ResumePDF, // Replace with actual link to your PDF
+    email: "pranatpagar.dev@gmail.com",
+    resumeLink: ResumePDF,
     about: [
-      "Highly motivated and results-driven Software Development Engineer specializing in building scalable, robust web applications and leveraging data-driven solutions.",
-      "Proficient in Java (DSA), Python (Django), Node.js and modern front-end frameworks like React. Proven ability to contribute immediately to core product development, optimize backend processes, and improve user experience.",
-      "I thrive in dynamic engineering environments, focused on object-oriented programming, clean architecture, and continuous delivery.",
+      "Passionate Salesforce Developer specializing in building scalable cloud solutions and customizing Salesforce platforms to drive business transformation and operational excellence.",
+      "Expert in Salesforce Lightning Web Components, Apex programming, and integration patterns. Proven ability to design and implement complex business logic, automate workflows, and optimize Salesforce performance.",
+      "Strong foundation in software development with backend expertise, focusing on robust APIs, database design, and server-side architecture to support comprehensive business solutions.",
+      "I thrive in dynamic Salesforce environments, focused on declarative development, programmatic solutions, and delivering exceptional user experiences on the Salesforce platform.",
     ],
   },
   skills: {
-    Programming: ['Java (DSA)', 'Python', 'C++', 'JavaScript'],
-    WebDevelopment: ['Django', 'React.js', 'Node.js', 'REST APIs', 'HTML5', 'Tailwind CSS'],
-    DatabasesTools: ['SQL', 'Oracle', 'Git', 'GitHub', 'TensorFlow', 'Tableau'],
-    Domain: ['Data Structures & Algorithms', 'Object-Oriented Programming (OOP)', 'Embedded Systems', 'Computer Networks'],
+    SalesforceCore: [
+      { name: 'LWC', icon: SiSalesforce, level: 85, color: '#00A1E0' },
+      { name: 'Apex Programming', icon: VscJson, level: 90, color: '#00A1E0' },
+      { name: 'SOQL & SOSL', icon: SiSalesforce, level: 95, color: '#00A1E0' },
+      { name: 'Visualforce', icon: VscCode, level: 75, color: '#00A1E0' },
+      { name: 'Flow Builder', icon: SiSalesforce, level: 80, color: '#00A1E0' },
+      { name: 'Process Builder', icon: SiSalesforce, level: 85, color: '#00A1E0' }
+    ],
+    DevelopmentTools: [
+      { name: 'VS Code', icon: VscCode, level: 90, color: '#007ACC' },
+      { name: 'Github Tool', icon: SiGithub, level: 90, color: '#ffffff' },
+      { name: 'Postman', icon: SiPostman, level: 85, color: '#FF6C37' },
+      { name: 'Git', icon: SiGit, level: 90, color: '#F05032' }
+    ],
+    Backend: [
+      { name: 'Python', icon: SiPython, level: 85, color: '#3776AB' },
+      { name: 'Java', icon: FaJava, level: 80, color: '#007396' },
+      { name: 'SQL', icon: SiPostgresql, level: 90, color: '#336791' },
+      { name: 'Node.js', icon: SiNodedotjs, level: 75, color: '#339933' },
+      { name: 'Django', icon: SiDjango, level: 70, color: '#092E20' }
+    ]
   },
   experience: [
     {
       title: "Software Engineer Intern",
       company: "Elite Softwares, Pune",
-      duration: "Dec 2025 - Present",
+      duration: "Dec 2025 - Mar 2026",
       icon: Briefcase,
       details: [
         "Engineered the authentication and session management backend using Django, resulting in a 30% reduction in reported login errors.",
         "Designed and implemented interactive JavaScript and CSS frontend features, which directly improved the application's overall user engagement by 20%.",
+      ],
+    },
+    {
+      title: "Tech Team Member",
+      company: "E-Cell DYPCOEI",
+      duration: "Jul 2025 – Present",
+      icon: Terminal,
+      details: [
+        "Provide active web development and technical support for institutional events and initiatives, including the successful hosting of the Smart India Hackathon (SIH)."
       ],
     },
     {
@@ -69,15 +108,6 @@ const config = {
       details: [
         "Contributed to the development of AI/ML pipelines by performing data collection, cleaning, and preparation for project-related datasets.",
         "Explored initial concepts in TensorFlow and Tableau to support data visualization efforts."
-      ],
-    },
-    {
-      title: "Tech Team Member",
-      company: "E-Cell DYPCOEI",
-      duration: "Jul 2025 – Present",
-      icon: Terminal,
-      details: [
-        "Provide active web development and technical support for institutional events and initiatives, including the successful hosting of the Smart India Hackathon (SIH)."
       ],
     },
   ],
@@ -98,7 +128,7 @@ const config = {
       duration: "2021-2023",
       icon: BookOpen,
       details: [
-        "Achieved 86.00% aggregate.",
+        "Achieved 86.00% aggregate."
       ],
     },
     {
@@ -107,635 +137,562 @@ const config = {
       duration: "2012-2021",
       icon: BookOpen,
       details: [
-        "Achieved 77.00% aggregate.",
+        "Achieved 77.00% aggregate."
       ],
     },
   ],
   projects: [
     {
-      name: "EV Station Finder",
-      tech: "Django, JavaScript, OpenChargeMap API",
-      description: "Developed a live web application by integrating the OpenChargeMap API to dynamically display over 50 real-time EV charging stations across India. Built a clean, mobile-responsive frontend using HTML/CSS with integrated Google Maps.",
-      github: "https://github.com/pranat20/Ev-station-finder",
-      demo: "https://ev-station-finder-qb8b.onrender.com/",
+      name: "EcoTwin AI",
+      tech: "Python, React.js, Node.js, Scikit-learn",
+      description: "AI-powered web application that predicts a user's carbon footprint based on their lifestyle and provides a sustainability score with personalized recommendations.",
+      github: "https://github.com/pranat20/EcoTwin-AI",
+      demo: "https://eco-twin-ai-lemon.vercel.app/",
+      tags: ['AI', 'Machine Learning', 'Python', 'React']
     },
     {
-      name: "Edumate Exam PLanner",
-      tech: "React + Vite, Tailwind CSS, Django + Django REST Framework, SQLite / PostgreSQL",
-      description: "Developed a smart study planner that helps students manage subjects, track progress, and stay exam-ready. Built an interactive, mobile-responsive web app that auto-generates personalized study schedules, sends reminders, and provides clear progress insights to improve study consistency.",
+      name: "Smart User Management System",
+      tech: "Java, Spring Boot, H2 Database",
+      description: "A comprehensive full-stack web application for managing users with a modern, responsive interface and robust REST API backend.",
+      github: "https://github.com/pranat20/smart-user-management-system",
+      demo: "#",
+      tags: ['Java', 'Spring Boot', 'Full Stack']
+    },
+    {
+      name: "EV Station Finder",
+      tech: "Django, JavaScript, OpenChargeMap API",
+      description: "Developed a live web application by integrating the OpenChargeMap API to dynamically display over 50 real-time EV charging stations across India.",
+      github: "https://github.com/pranat20/Ev-station-finder",
+      demo: "https://ev-station-finder-qb8b.onrender.com/",
+      tags: ['Python', 'API Integration', 'Maps']
+    },
+    {
+      name: "Edumate Exam Planner",
+      tech: "React, Django, Tailwind CSS",
+      description: "Developed a smart study planner that helps students manage subjects and track progress with auto-generated study schedules.",
       github: "https://github.com/pranat20/Edumate-exam-planner",
       demo: "https://edumate-exam-planner-frontend2.onrender.com/",
+      tags: ['React', 'Django', 'Full Stack']
     },
     {
       name: "Student Result Management System",
-      tech: "HTML, CSS, Bootstrap 5, PHP, MySql, XAMPP",
-      description: "Developed a responsive web-based SRMS using PHP, MySQL, HTML, CSS, and Bootstrap to help colleges efficiently manage departments, students, subjects, marks, and results through a clean and user-friendly interface.",
+      tech: "PHP, MySQL, Bootstrap 5",
+      description: "Developed a responsive web-based SRMS using PHP and MySQL to help colleges efficiently manage departments and students.",
       github: "https://github.com/pranat20/student-result-management-system",
       demo: "https://pranatdeploy.ct.ws/",
+      tags: ['PHP', 'MySQL', 'Bootstrap']
     },
     {
-      name: "Latest News Portal ",
-      tech: "React.js, Axios, React Router, FontAwesome Icons Backend Node.js, Express.js, Mongoose Database MongoDB Atlas API Source NewsData.io API",
-      description: "Built a full-stack web application that fetches live news articles using the NewsData.io API. Designed a clean, responsive interface where users can read, like, and save their favorite articles, ensuring a smooth browsing experience across both desktop and mobile devices.",
+      name: "Latest News Portal",
+      tech: "React.js, Node.js, MongoDB",
+      description: "Built a full-stack web application that fetches live news articles using the NewsData.io API with clean, responsive UI.",
       github: "https://github.com/pranat20/News-Portal-using-NewsData.io-API",
       demo: "https://news-portal-frontend-chi.vercel.app/",
+      tags: ['React', 'Node.js', 'MongoDB']
     },
   ],
-  // =================================================================
-  // 🚨🚨 2. CONFIG UPDATE: Images are now correctly linked via the imported variables
-  // =================================================================
   certificates: [
-    { name: "Deloitte Australia Tech Job Simulation", issuer: "Forage", type: "Simulation", date: "2025", link: "#", image: DeloitteCert },
-    { name: "Python for Data Science", issuer: "Infosys Springboard", type: "Certification", date: "2025", link: "#", image: PythonCert },
-    { name: "Automatic Street Light (Centrado Kit)", issuer: "Infosys Springboard", type: "Course", date: "2025", link: "#", image: CentradoKit },
-    { name: "Technocrats-2K25 (PBL Competition)", issuer: "D. Y. Patil College", type: "Achievement", date: "2025", link: "#", image: Technocrats },
-    { name: "UI/UX Designer Intern", issuer: "Codec Technologies", type: "Internship", date: "2025", link: "#", image: UIUXCert },
-    { name: "Illuminate Workshop Organizer", issuer: "E-Cell DYPCOEI (Guided by IIT Bombay)", type: "Leadership", date: "2025", link: "#", image: IlluminateWorkshop },
-    { name: "Crafterverse Hackathon Participant", issuer: "PCCOER", type: "Hackathon", date: "2025", link: "#", image: CrafterverseHackathon }
+    { name: "Software Engineer Intern", issuer: "Elite Softwares", type: "Internship", date: "2026", image: EliteCert, desc: "Validation of software development contribution during internship." },
+    { name: "AI/ML Intern", issuer: "Elevate Labs", type: "Internship", date: "2025", image: Elevate, desc: "Contributed to the development of AI/ML pipelines by performing data collection, cleaning, and preparation for project-related datasets." },
+    { name: "Rank 87 - National Entrepreneurship Challenge", issuer: "E-Cell IIT Bombay", type: "Competition", date: "2025", image: IITBNEC, desc: "Secured Rank 87 in NEC 2025 Basic Track, a 6-month national competition." },
+    { name: "Introduction to Modern AI", issuer: "Cisco Networking Academy", type: "Certification", date: "09 Feb 2026", image: CiscoModernAI, desc: "Successfully completed modern AI training through Cisco Networking Academy at DYPCOEI." },
+    { name: "Networking Basics", issuer: "Cisco Networking Academy", type: "Certification", date: "15 Jan 2026", image: NetworkingBasics, desc: "Successfully completed foundation networking training via Cisco Networking Academy." },
+    { name: "Green Skills and AI", issuer: "Edunet / AICTE / Shell", type: "Advanced Course", date: "Feb 2026", image: EdunetAI, desc: "Completed Skills4Future program at Dr. DY Patil College." },
+    { name: "Build Your Own Chatbot", issuer: "IBM SkillsBuild", type: "Certification", date: "21 Jan 2026", image: IBMChatbot, desc: "Earned certification for chatbot development using IBM Developer Skills Network." },
+    { name: "Gemini Certified Student", issuer: "Google for Education", type: "Qualification", date: "12 Jan 2026", image: GeminiCertified, desc: "Demonstrated knowledge and basic competencies in Google AI technologies." },
+    { name: "Elements of AI", issuer: "University of Helsinki", type: "Academic", date: "14 Jan 2026", image: ElementsOfAI, desc: "Completed 2 ECTS credits online course on AI foundations." },
+    { name: "Deloitte Tech Job Simulation", issuer: "Forage", type: "Simulation", date: "2025", image: DeloitteCert, desc: "Practical simulation of tech tasks at Deloitte Australia." },
+    { name: "Python for Data Science", issuer: "IBM / Infosys", type: "Certification", date: "2025", image: DataScienceCert, desc: "Validated proficiency in data science libraries and Python programming." },
+    { name: "UI/UX Design Fundamentals", issuer: "Codec Technologies", type: "Course", date: "2025", image: UIUXCert, desc: "Mastered core UI/UX principles and design workflow." },
+    { name: "Techethon 3.0", issuer: "D.Y. Patil College", type: "Hackathon", date: "2025", image: TechethonCert, desc: "Demonstrated innovation in technical prototype development." },
+    { name: "Illuminate 2025", issuer: "E-Cell IIT Bombay", type: "Award", date: "2025", image: IlluminateCert, desc: "Recognized for leadership and entrepreneurial vision." },
   ],
 };
 
-// --- Framer Motion Variants ---
-const sectionVariants = {
-  hidden: { opacity: 0, y: 50 },
-  visible: { 
-    opacity: 1, 
-    y: 0, 
-    transition: { 
-      duration: 0.6, 
-      ease: "easeOut",
-      // Stagger children globally for a smoother reveal
-      staggerChildren: 0.1 
-    } 
-  },
-};
-
-const cardVariants = {
-  offscreen: { y: 50, opacity: 0 }, // Reduced travel distance for faster feel
-  onscreen: {
-    y: 0,
-    opacity: 1,
-    transition: {
-      type: "spring",
-      bounce: 0.1, // Reduced bounce
-      duration: 0.5 // Faster animation
-    }
-  }
-};
-
-const iconButtonVariants = {
-  hover: { scale: 1.1, rotate: 5 },
-  tap: { scale: 0.9 },
-};
-
-// --- Components ---
-
-// Reusable Section Wrapper
-const Section = ({ id, title, children }) => (
-  <motion.section
-    id={id}
-    className="min-h-[80vh] py-16 md:py-24 px-4 sm:px-8 lg:px-16"
-    initial="hidden"
-    // IMPROVEMENT: Use 'amount: 0.05' and 'once: true' for better performance
-    whileInView="visible"
-    viewport={{ once: true, amount: 0.05 }} 
-    variants={sectionVariants}
-  >
-    <h2 className="text-4xl md:text-5xl font-bold mb-12 text-center text-text relative">
-      <span className="text-primary">{title}</span>
-      <div className="w-24 h-1 bg-primary mx-auto mt-2 rounded-full"></div>
-    </h2>
-    {children}
-  </motion.section>
-);
-
-// Hero Section
-const Hero = () => (
-  <section id="home" className="min-h-screen flex items-center justify-center bg-background text-text p-4">
-    <motion.div
-      initial={{ opacity: 0, scale: 0.9 }}
-      animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.7, delay: 0.2 }}
-      className="text-center max-w-4xl flex flex-col items-center"
-    >
-      {/* Profile Picture */}
-      <motion.img
-        src={config.info.profilePic}
-        alt="Pranat Pagar Profile"
-        className="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover border-4 border-primary shadow-2xl mb-4"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.4 }}
-        onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/150x150/3B82F6/0F172A?text=PP" }}
-      />
-      
-      {/* Name (Below Pic) - Matched SDE tagline style, slightly bolder */}
-      <motion.h2
-        className="text-2xl md:text-3xl font-bold mb-2 text-text tracking-wider"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.6 }}
-      >
-        {config.info.name}
-      </motion.h2>
-
-      {/* SDE Title (Slightly smaller than name) */}
-      <motion.h1
-        className="text-lg md:text-xl font-semibold mb-12 text-primary tracking-widest"
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.8 }}
-      >
-        SOFTWARE DEVELOPMENT ENGINEER
-      </motion.h1>
-
-      <div className="flex justify-center space-x-6">
-        <motion.a
-          href="#projects"
-          className="px-8 py-3 bg-primary text-background font-semibold rounded-full shadow-2xl hover:bg-secondary transition duration-300 transform hover:-translate-y-1"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          View Projects
-        </motion.a>
-        <motion.a
-          href={config.info.resumeLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="px-8 py-3 border border-text text-text font-semibold rounded-full hover:bg-text hover:text-background transition duration-300 transform hover:-translate-y-1"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <Download className="inline h-5 w-5 mr-2" /> Resume
-        </motion.a>
-      </div>
-    </motion.div>
-  </section>
-);
-
-// About Section
-const About = () => (
-  <Section id="about" title="About Me">
-    <div className="max-w-4xl mx-auto p-8 bg-card rounded-xl shadow-2xl border-t-2 border-primary/50">
-      <div className="space-y-6 text-lg text-text/80">
-        {config.info.about.map((paragraph, index) => (
-          <motion.p
-            key={index}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.1 }}
-            transition={{ duration: 0.5, delay: index * 0.1 }}
-          >
-            {paragraph}
-          </motion.p>
-        ))}
-      </div>
-    </div>
-  </Section>
-);
-
-// Skills Section
-const Skills = () => (
-  <Section id="skills" title="Technical Skills">
-    <div className="max-w-6xl mx-auto space-y-10">
-      {Object.entries(config.skills).map(([category, skillList], categoryIndex) => (
-        // IMPROVEMENT: Applied motion directly to the category div for a better effect
-        <motion.div 
-          key={category} 
-          className="bg-card p-6 rounded-xl shadow-xl"
-          initial="offscreen"
-          whileInView="onscreen"
-          viewport={{ once: true, amount: 0.2 }}
-          variants={cardVariants}
-          transition={{ delay: categoryIndex * 0.1 }}
-        >
-          <h3
-            className="text-2xl font-bold mb-4 text-primary border-b border-detail pb-2"
-          >
-            {category}
-          </h3>
-          <div className="flex flex-wrap gap-3 mt-4">
-            {skillList.map((skill, skillIndex) => (
-              <motion.span
-                key={skill}
-                className="px-4 py-2 bg-card text-text text-sm rounded-full font-medium cursor-default transition-all border border-detail"
-                initial={{ scale: 0.8, opacity: 0 }}
-                whileInView={{ scale: 1, opacity: 1 }}
-                whileHover={{ scale: 1.05, backgroundColor: config.colors.primary, color: config.colors.card }}
-                viewport={{ once: true, amount: 0.1 }}
-                // Removed redundant delay here, inherited from parent stagger
-                transition={{ duration: 0.3 }} 
-              >
-                {skill}
-              </motion.span>
-            ))}
-          </div>
-        </motion.div>
-      ))}
-    </div>
-  </Section>
-);
-
-// Reusable Timeline Item Component (Used by Experience and Education)
-const TimelineItem = ({ data, index }) => (
-    <motion.div
-      className={`mb-8 flex justify-between items-center w-full ${index % 2 === 0 ? 'md:flex-row-reverse' : 'md:flex-row'}`}
-      initial="offscreen"
-      whileInView="onscreen"
-      viewport={{ once: true, amount: 0.3 }}
-      variants={cardVariants}
-    >
-      {/* Empty placeholder for alignment on large screens */}
-      <div className="hidden md:block w-[48%]"></div>
-      
-      {/* Icon Circle - Centered and z-index 20 */}
-      <div className="w-10 h-10 bg-primary rounded-full absolute left-1/2 transform -translate-x-1/2 flex items-center justify-center z-20 hidden md:flex">
-          {React.createElement(data.icon, { className: 'w-6 h-6 text-background' })}
-      </div>
-      
-      {/* Card - Width is 48% on desktop, pushing content outward */}
-      <div 
-          className={`w-full md:w-[48%] p-4 rounded-xl shadow-2xl bg-card transition duration-500 hover:bg-secondary 
-          ${index % 2 === 0 
-              ? 'md:ml-[52%] md:pl-6' // Right side card: pushed to the right
-              : 'md:mr-[52%] md:text-right md:pr-6' // Left side card: pushed to the left
-          }`}
-      >
-          <h3 className="text-xl font-bold text-primary">{data.title}</h3>
-          <p className="text-text/80 font-medium">{data.company || data.school}</p>
-          <p className="text-sm italic mb-2 text-primary/70">{data.duration}</p>
-          <ul className={`list-disc space-y-0.5 text-text/80 ${index % 2 === 0 ? 'pl-5' : 'md:list-none md:text-right md:pl-0'}`}>
-              {data.details.map((detail, i) => (
-                  <li key={i}>{detail}</li>
-              ))}
-          </ul>
-      </div>
-    </motion.div>
-);
-
-// Experience Section - Timeline
-const Experience = () => (
-  <Section id="experience" title="Professional Experience">
-    <div className="relative min-h-[500px] w-full mx-auto md:px-16">
-      {/* Vertical Line - z-index 10 */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-secondary h-full hidden md:block z-10"></div>
-
-      {config.experience.map((exp, index) => (
-        <TimelineItem key={index} data={exp} index={index} />
-      ))}
-    </div>
-  </Section>
-);
-
-// Education Section - Timeline
-const Education = () => (
-  <Section id="education" title="Education">
-    <div className="relative min-h-[300px] w-full mx-auto md:px-16">
-      {/* Vertical Line */}
-      <div className="absolute left-1/2 transform -translate-x-1/2 w-1 bg-secondary h-full hidden md:block z-10"></div>
-
-      {config.education.map((edu, index) => (
-        <TimelineItem key={index} data={edu} index={index} />
-      ))}
-    </div>
-  </Section>
-);
-
-// Project Card Component
-const ProjectCard = ({ project, index }) => (
-  <motion.div
-    className="bg-card p-6 rounded-xl shadow-2xl border-t-4 border-primary/50 flex flex-col h-full"
-    initial="offscreen"
-    whileInView="onscreen"
-    viewport={{ once: true, amount: 0.2 }}
-    variants={cardVariants}
-    // IMPROVEMENT: Removed index delay, relying on section's stagger
-    transition={{ delay: 0 }} 
-    whileHover={{ scale: 1.03, boxShadow: `0 10px 20px rgba(0, 0, 0, 0.5)` }}
-  >
-    <h3 className="text-2xl font-bold mb-2 text-primary">{project.name}</h3>
-    <p className="text-sm font-light italic mb-4 text-text/70">{project.tech}</p>
-    <p className="text-text/90 mb-6 flex-grow">{project.description}</p>
-    
-    <div className="mt-auto flex space-x-4">
-      <motion.a 
-        href={project.github} 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="flex items-center text-text hover:text-primary transition-colors"
-        variants={iconButtonVariants}
-        whileHover="hover"
-        whileTap="tap"
-      >
-        <Code className="h-5 w-5 mr-1" /> Code
-      </motion.a>
-      <motion.a 
-        href={project.demo} 
-        target="_blank" 
-        rel="noopener noreferrer" 
-        className="flex items-center text-text hover:text-primary transition-colors"
-        variants={iconButtonVariants}
-        whileHover="hover"
-        whileTap="tap"
-      >
-        <Link className="h-5 w-5 mr-1" /> Demo
-      </motion.a>
-    </div>
-  </motion.div>
-);
-
-// Projects Section
-const Projects = () => (
-  <Section id="projects" title="Academic Projects">
-    {/* IMPROVEMENT: Removed index delay in ProjectCard, using section stagger for smoother loading */}
-    <motion.div 
-      className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto"
-      // Added explicit stagger children here
-      variants={{ visible: { transition: { staggerChildren: 0.1 } } }} 
-    >
-      {config.projects.map((project, index) => (
-        <ProjectCard key={index} project={project} index={index} />
-      ))}
-    </motion.div>
-  </Section>
-);
-
-// Certificates Section with Modal
-const Certificates = () => {
-  const [selectedCert, setSelectedCert] = useState(null);
-
-  const CertCard = ({ cert, index }) => (
-    <motion.div
-      className="bg-card p-4 rounded-xl shadow-md cursor-pointer hover:shadow-primary/50 transition duration-300 transform hover:-translate-y-1 border-b-4 border-primary"
-      initial={{ opacity: 0, scale: 0.9 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      viewport={{ once: true, amount: 0.1 }}
-      // IMPROVEMENT: Reduced delay for faster UI feel
-      transition={{ delay: index * 0.05, duration: 0.4 }} 
-      onClick={() => setSelectedCert(cert)}
-    >
-      <div className="flex items-center space-x-3 mb-2">
-        <BookOpen className="h-6 w-6 text-primary" />
-        <h3 className="text-lg font-semibold text-text">{cert.name}</h3>
-      </div>
-      <p className="text-sm text-text/70">Issuer: {cert.issuer}</p>
-      <p className="text-xs italic mb-4 text-primary/70">{cert.type}   {cert.date}</p>
-      <p className="text-xs font-medium text-text mt-2">Click to View Details</p>
-    </motion.div>
-  );
-
-  const Modal = ({ cert, onClose }) => (
-    <motion.div 
-      className="fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-    >
-      <motion.div 
-        className="bg-card p-6 rounded-xl max-w-lg w-full shadow-2xl border-t-4 border-primary"
-        initial={{ y: -50, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        exit={{ y: 50, opacity: 0 }}
-        transition={{ type: "spring", stiffness: 100, duration: 0.3 }} // Faster modal transition
-        onClick={e => e.stopPropagation()} // Prevent closing when clicking inside modal
-      >
-        <h3 className="text-2xl font-bold mb-2 text-primary">{cert.name}</h3>
-        <p className="text-text/80 mb-1">Issued by: <span className="font-semibold">{cert.issuer}</span></p>
-        <p className="text-sm italic mb-4 text-primary/70">{cert.type}  {cert.date}</p>
-        
-        {/* CERTIFICATE IMAGE DISPLAY */}
-        <div className="my-4 border-4 border-detail p-1 rounded-lg max-h-96 overflow-y-auto">
-            <img 
-                src={cert.image} 
-                alt={`${cert.name} Certificate`} 
-                className="w-full h-auto rounded-sm object-contain"
-                onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/400x300/D32F2F/FFFFFF?text=Image+Not+Found" }} 
-            />
-        </div>
-
-        <p className="text-text/90 mb-4 text-sm">
-          This credential validates my practical skills and knowledge acquired during the {cert.type.toLowerCase()} program.
-        </p>
-
-        <button 
-          onClick={onClose} 
-          className="mt-6 w-full py-2 bg-secondary text-text rounded-lg hover:bg-secondary/70 transition-colors"
-        >
-          Close
-        </button>
-      </motion.div>
-    </motion.div>
-  );
-
+const ScrollProgress = () => {
+  const [scrollProgress, setScrollProgress] = useState(0);
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress((scrollTop / docHeight) * 100);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
   return (
-    <Section id="certificates" title="Certificates & Achievements">
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-7xl mx-auto">
-        {config.certificates.map((cert, index) => (
-          <CertCard key={index} cert={cert} index={index} />
-        ))}
-      </div>
-      <AnimatePresence>
-        {selectedCert && <Modal cert={selectedCert} onClose={() => setSelectedCert(null)} />}
-      </AnimatePresence>
-    </Section>
+    <div className="fixed top-0 left-0 w-full h-1 bg-gray-800 z-[60]">
+      <div className="h-full bg-gradient-to-r from-[#00A1E0] to-[#00E0B8] transition-all duration-300" style={{ width: `${scrollProgress}%` }} />
+    </div>
   );
 };
 
-// Fixed Navbar Component
+const useSmoothScroll = () => {
+  useEffect(() => {
+    const handleClick = (e) => {
+      const target = e.target.closest('a');
+      if (target && target.getAttribute('href')?.startsWith('#')) {
+        const targetId = target.getAttribute('href');
+        if (targetId === '#') return;
+        e.preventDefault();
+        const el = document.querySelector(targetId);
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    };
+    document.addEventListener('click', handleClick);
+    return () => document.removeEventListener('click', handleClick);
+  }, []);
+};
+
+const CustomCursor = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isHovering, setIsHovering] = useState(false);
+  const isDesktop = typeof window !== 'undefined' && window.matchMedia("(min-width: 768px)").matches;
+
+  useEffect(() => {
+    if (!isDesktop) return;
+    const handleMouseMove = (e) => setPosition({ x: e.clientX, y: e.clientY });
+    const handleEnter = () => setIsHovering(true);
+    const handleLeave = () => setIsHovering(false);
+
+    window.addEventListener('mousemove', handleMouseMove);
+    const els = document.querySelectorAll('a, button, input, textarea');
+    els.forEach(el => {
+      el.addEventListener('mouseenter', handleEnter);
+      el.addEventListener('mouseleave', handleLeave);
+    });
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+      els.forEach(el => {
+        el.removeEventListener('mouseenter', handleEnter);
+        el.removeEventListener('mouseleave', handleLeave);
+      });
+    };
+  }, [isDesktop]);
+
+  if (!isDesktop) return null;
+  return (
+    <div className="fixed pointer-events-none z-[100] transition-transform duration-100" style={{ left: `${position.x}px`, top: `${position.y}px`, transform: `translate(-50%, -50%) scale(${isHovering ? 1.5 : 1})` }}>
+      <Cloud className="w-6 h-6 text-[#00A1E0] opacity-80" />
+    </div>
+  );
+};
+
+const CanvasBackground = () => (
+  <div className="fixed top-0 left-0 w-full h-full z-0">
+    <div className="absolute inset-0 bg-gradient-to-br from-blue-900/10 via-transparent to-green-900/10"></div>
+    <div className="absolute inset-0 bg-blue-500/3 rounded-full blur-3xl"></div>
+    <div className="absolute top-0 left-0 w-1/2 h-full bg-gradient-to-r from-green-500/4 to-transparent"></div>
+    <div className="absolute top-0 right-0 w-3/4 h-1/2 bg-blue-500/5 rounded-full blur-3xl"></div>
+    <div className="absolute bottom-0 left-0 w-full h-1/2 bg-gradient-to-t from-cyan-500/4 to-transparent"></div>
+    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-green-500/3 rounded-full blur-3xl"></div>
+    <div className="absolute top-0 right-0 w-2/3 h-2/3 bg-blue-500/2 rounded-full blur-3xl"></div>
+    <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-green-500/2 rounded-full blur-3xl"></div>
+  </div>
+);
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
   const links = [
-    { name: "Home", href: "#home" },
     { name: "About", href: "#about" },
+    { name: "Skills", href: "#skills" },
+    { name: "Projects", href: "#projects" },
     { name: "Experience", href: "#experience" },
     { name: "Education", href: "#education" },
-    { name: "Projects", href: "#projects" },
-    { name: "Skills", href: "#skills" },
     { name: "Certificates", href: "#certificates" },
+    { name: "Contact", href: "#contact" },
   ];
-
-  const NavLink = ({ href, children }) => {
-    const handleClick = () => {
-      setIsOpen(false); 
-    };
-
-    return (
-      <a
-        href={href}
-        onClick={handleClick}
-        className="text-text hover:text-primary transition-colors text-lg font-medium p-2 block md:inline"
-      >
-        {children}
-      </a>
-    );
-  };
-
   return (
-    <nav className="sticky top-0 z-40 bg-background/95 backdrop-blur-sm shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          <a href="#home" className="text-2xl font-bold text-primary">
-            P.P.
+    <>
+      <nav className="fixed w-full z-50 glass top-0 py-4 px-6 md:px-12 flex justify-between items-center">
+        <a href="#hero" className="font-heading font-bold text-xl text-white flex items-center gap-2 group">
+          <span className="transition-all duration-300 group-hover:text-[#00A1E0] group-hover:scale-105">
+            PRANATPAGAR.
+            <span className="text-[#00A1E0] transition-colors duration-300 group-hover:text-white">DEV</span>
+          </span>
+        </a>
+        <div className="hidden md:flex items-center gap-8 text-lg font-medium text-gray-300">
+          {links.map(link => (
+            <a key={link.name} href={link.href} className="hover:text-[#00A1E0] transition-all duration-300 hover:scale-110 transform">
+              {link.name}
+            </a>
+          ))}
+          <a href="#contact" className="px-6 py-3 rounded-full border border-sf-blue/50 text-sf-blue hover:bg-sf-blue hover:text-white transition-all duration-300 font-semibold transform hover:scale-110 hover:shadow-[0_0_20px_rgba(0,161,224,0.6)] hover:rotate-3 group relative overflow-hidden">
+            <span className="relative z-10">Let's Talk</span>
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
           </a>
-          
-          {/* Desktop Links */}
-          <div className="hidden md:flex space-x-4">
-            {links.map(link => (
-              <NavLink key={link.name} href={link.href}>
-                {link.name}
-              </NavLink>
-            ))}
-          </div>
-
-          {/* Mobile Menu Button */}
-          <button 
-            className="md:hidden text-text focus:outline-none"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            <svg
-              className="w-6 h-6"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d={
-                  isOpen
-                    ? "M6 18L18 6M6 6l12 12"
-                    : "M4 6h16M4 12h16M4 18h16"
-                }
-              ></path>
-            </svg>
-          </button>
         </div>
-      </div>
-
-      {/* Mobile Menu */}
+        <button className="md:hidden text-white" onClick={() => setIsOpen(!isOpen)}><MenuIcon /></button>
+      </nav>
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.3 }}
-            className="md:hidden bg-background border-t border-secondary"
-          >
-            <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-              {links.map(link => (
-                <NavLink key={link.name} href={link.href}>
-                  {link.name}
-                </NavLink>
-              ))}
-            </div>
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-[#0a0f16] z-40 flex flex-col items-center justify-center gap-8 text-xl">
+            {links.map(link => <a key={link.name} href={link.href} className="text-gray-300 text-lg hover:text-[#00A1E0] transition-all duration-300 hover:scale-110 transform" onClick={() => setIsOpen(false)}>{link.name}</a>)}
           </motion.div>
         )}
       </AnimatePresence>
-    </nav>
+    </>
   );
 };
 
+const MenuIcon = () => (
+  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+);
 
-// Footer Component
-const Footer = () => (
-  <footer className="bg-secondary text-text py-8 px-4 sm:px-8 lg:px-16">
-    <div className="max-w-7xl mx-auto text-center">
-      <h3 className="text-3xl font-bold text-primary mb-4">Let's Connect!</h3>
-      <p className="text-text/80 mb-6">I am actively seeking a Summer 2026 SDE/Backend Internship opportunity.</p>
-
-      <div className="flex justify-center space-x-6 mb-8">
-        <motion.a 
-          href={config.info.linkedin} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="text-text hover:text-primary transition-colors"
-          whileHover={{ scale: 1.2, rotate: 5 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.742 7 2.434v6.801z"/></svg>
-        </motion.a>
-        <motion.a 
-          href={config.info.github} 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className="text-text hover:text-primary transition-colors"
-          whileHover={{ scale: 1.2, rotate: -5 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <svg className="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fillRule="evenodd" d="M12 0C5.373 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.11.82-.26.82-.577v-2.01c-3.338.723-4.042-1.609-4.042-1.609-.547-1.385-1.332-1.757-1.332-1.757-1.09-.745.084-.73.084-.73 1.206.084 1.838 1.237 1.838 1.237 1.07 1.837 2.809 1.305 3.493.996.108-.775.419-1.305.762-1.604-2.67-.305-5.474-1.335-5.474-5.932 0-1.31.468-2.383 1.236-3.228-.124-.303-.535-1.523.117-3.172 0 0 1.008-.323 3.302 1.233 2.37-.655 4.888-.655 7.258 0 2.294-1.556 3.302-1.233 3.302-1.233.652 1.649.24 2.869.118 3.172.768.845 1.236 1.918 1.236 3.228 0 4.612-2.808 5.626-5.485 5.922.428.36.816 1.077.816 2.179v3.235c0 .317.218.692.825.577C19.565 21.8 23 17.302 23 12c0-6.627-5.373-12-12-12z"/></svg>
-        </motion.a>
-        <motion.a 
-          href={`mailto:${config.info.email}`}
-          className="text-text hover:text-primary transition-colors"
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
-        >
-          <Mail className="w-8 h-8" />
-        </motion.a>
-      </div>
-
-      <div className="border-t border-background/20 pt-4 mt-4">
-        <p className="text-sm text-text/60">
-          © Designed & Developed by Pranat Pagar Computer Engineering Student 2023-2027</p>
+const Hero = () => (
+  <section id="hero" className="min-h-screen flex items-center justify-center pt-20 px-4 relative overflow-hidden">
+    <div className="max-w-5xl mx-auto text-center z-10">
+      <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="inline-flex items-center gap-3 mb-6 px-6 py-3 rounded-full border border-[#00A1E0]/50 bg-[#00A1E0]/20 text-[#00A1E0] font-semibold tracking-wide shadow-[0_0_25px_rgba(0,161,224,0.5)]">
+        <div className="relative flex h-4 w-4">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#00A1E0] opacity-75"></span>
+          <span className="relative inline-flex rounded-full h-4 w-4 bg-[#00A1E0]"></span>
+        </div>
+        <span className="font-heading">Available for Opportunities</span>
+      </motion.div>
+      <h1 className="text-4xl md:text-7xl lg:text-8xl font-heading font-extrabold leading-tight mb-6 tracking-tight">
+        Building Scalable <br/> Solutions with <span className="text-gradient-blue">Salesforce</span>
+      </h1>
+      <p className="text-base md:text-2xl text-gray-400 mb-10 max-w-3xl mx-auto font-light leading-relaxed">
+        Hi, I'm <strong className="text-white font-medium">Pranat Pagar</strong>. An aspiring Salesforce Developer specializing in Apex, LWC, SOQL, and robust CRM architecture.
+      </p>
+      <div className="flex flex-col sm:flex-row justify-center gap-4 px-4 sm:px-0">
+        <a href="#projects" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-sf-blue text-white font-medium hover:bg-blue-500 transition-all duration-300 shadow-[0_0_20px_rgba(0,161,224,0.4)] hover:shadow-[0_0_30px_rgba(0,161,224,0.6)] flex items-center justify-center gap-2 text-lg transform hover:scale-105">
+          View My Work <ExternalLink className="w-5 h-5" />
+        </a>
+        <a href="#contact" className="w-full sm:w-auto px-8 py-4 rounded-xl border border-sf-blue/50 text-sf-blue hover:bg-sf-blue hover:text-white transition-all duration-300 flex items-center justify-center text-lg font-semibold transform hover:scale-110 hover:shadow-[0_0_25px_rgba(0,161,224,0.6)] hover:rotate-2 group relative overflow-hidden">
+          <span className="relative z-10">Contact Me</span>
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+        </a>
       </div>
     </div>
-  </footer>
+  </section>
 );
 
+const About = () => (
+  <section id="about" className="py-24 px-4 relative overflow-hidden">
+    <div className="max-w-6xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto text-center mb-16">
+        <h2 className="text-[#00A1E0] font-bold uppercase mb-2">The Journey</h2>
+        <h3 className="text-3xl md:text-6xl font-bold">About <span className="text-gradient">Me</span></h3>
+      </div>
+      <div className="glass-card p-6 md:p-8 rounded-3xl border border-white/10">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+          <div className="flex flex-col items-center space-y-4">
+            <div className="relative group">
+              <div className="relative w-48 h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-[#00A1E0] to-[#00E0B8] p-1 transform group-hover:scale-105 transition-transform duration-300 shadow-lg shadow-blue-500/20">
+                <img src={config.info.profilePic} alt={config.info.name} className="w-full h-full rounded-full object-cover" />
+              </div>
+            </div>
+            <div className="flex gap-3">
+              <a href={config.info.linkedin} target="_blank" rel="noopener noreferrer" className="glass-card p-3 rounded-full hover:bg-[#00A1E0] hover:text-white transition-all duration-300 transform hover:scale-110 group">
+                <Linkedin size={18} className="group-hover:scale-110 transition-transform" />
+              </a>
+              <a href={config.info.github} target="_blank" rel="noopener noreferrer" className="glass-card p-3 rounded-full hover:bg-[#00A1E0] hover:text-white transition-all duration-300 transform hover:scale-110 group">
+                <Github size={18} className="group-hover:scale-110 transition-transform" />
+              </a>
+              <a 
+                href={`https://mail.google.com/mail/?view=cm&fs=1&to=${config.info.email}&su=Hello%20from%20Portfolio%20Website&body=Hi%20Pranat%2C%20I%20found%20your%20portfolio%20and%20wanted%20to%20connect...`} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="glass-card p-3 rounded-full hover:bg-[#00A1E0] hover:text-white transition-all duration-300 transform hover:scale-110 group"
+              >
+                <Mail size={18} className="group-hover:scale-110 transition-transform" />
+              </a>
+            </div>
+          </div>
+          <div className="space-y-6">
+            <h4 className="text-[#00A1E0] font-semibold text-xl flex items-center gap-2 justify-center md:justify-start">
+              <Briefcase className="w-5 h-5" /> Salesforce Developer
+            </h4>
+            <div className="space-y-4 text-gray-300 text-sm md:text-lg leading-relaxed text-center md:text-left">
+              {config.info.about.map((p, i) => (
+                <p key={i} className="flex items-start gap-2">
+                  <span className="text-[#00A1E0] mt-1 flex-shrink-0 hidden md:inline">▸</span> <span>{p}</span>
+                </p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+);
 
-// --- Main App Component ---
-const App = () => (
-  <div className="font-sans bg-background min-h-screen text-text">
-    <style dangerouslySetInnerHTML={{__html: `
-      html {
-        scroll-behavior: smooth;
-        background-color: ${config.colors.background};
-      }
-      ::selection {
-        background: ${config.colors.primary};
-        color: ${config.colors.background};
-      }
-      /* Custom Scrollbar for a sleek look */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: ${config.colors.detail};
-      }
-      ::-webkit-scrollbar-thumb {
-        background: ${config.colors.primary};
-        border-radius: 4px;
-      }
-      /* Fix for Framer Motion / Tailwind gradient text clip */
-      .bg-clip-text {
-        -webkit-background-clip: text;
-        background-clip: text;
-      }
-    `}} />
-    
-    <Navbar />
-    <main>
-      <Hero />
-      <div className="w-full h-px bg-primary opacity-20"></div> 
-      <About />
-      <div className="w-full h-px bg-primary opacity-20"></div>
-      <Experience />
-      <div className="w-full h-px bg-primary opacity-20"></div>
-      <Education />
-      <div className="w-full h-px bg-primary opacity-20"></div>
-      <Projects />
-      <div className="w-full h-px bg-primary opacity-20"></div>
-      <Skills />
-      <div className="w-full h-px bg-primary opacity-20"></div>
-      <Certificates />
-    </main>
-    <Footer />
+const Skills = () => (
+  <motion.section id="skills" className="py-24 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+    <div className="max-w-7xl mx-auto text-center mb-16">
+      <h2 className="text-[#00A1E0] font-bold uppercase mb-2">Technical Arsenal</h2>
+      <h3 className="text-3xl md:text-6xl font-bold">Salesforce & <span className="text-gradient">Beyond</span></h3>
+    </div>
+    <div className="max-w-7xl mx-auto">
+      {Object.entries(config.skills).map(([cat, list]) => (
+        <div key={cat} className="mb-12">
+          <h4 className="text-lg md:text-xl font-semibold text-white mb-6 border-b border-white/10 pb-2 uppercase tracking-wider">{cat.replace(/([A-Z])/g, ' $1')}</h4>
+          <div className="flex flex-wrap gap-2 md:gap-3">
+            {list.map(s => {
+              const IconComponent = s.icon;
+              return (
+                <div key={s.name} className="glass-card rounded-full px-4 md:px-5 py-2 flex items-center gap-3 cursor-pointer transition-all duration-200 hover:scale-110 hover:shadow-[0_0_15px_rgba(0,161,224,0.4)] relative z-10">
+                  <IconComponent size={18} style={{ color: s.color }} />
+                  <span className="text-white text-xs md:text-base font-medium">{s.name}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ))}
+    </div>
+  </motion.section>
+);
+
+const Projects = () => (
+  <motion.section id="projects" className="py-24 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+    <div className="text-center mb-16">
+        <h2 className="text-[#00A1E0] font-bold uppercase mb-2">Featured Work</h2>
+        <h3 className="text-3xl md:text-4xl font-bold">Project Showcase</h3>
+      </div>
+    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+      {config.projects.map((p, i) => (
+        <div key={i} className="glass-card rounded-2xl overflow-hidden flex flex-col hover:transform hover:scale-105 transition-all duration-300 hover:shadow-[0_0_20px_rgba(0,161,224,0.3)] cursor-pointer group relative">
+          <div className="h-40 md:h-48 bg-gray-900 flex items-center justify-center relative">
+             <Code size={64} className="text-[#00A1E0]/20" />
+             <div className="absolute bottom-3 left-3 flex flex-wrap gap-2">
+                {p.tags.map(t => <span key={t} className="text-[10px] bg-black/50 px-2 py-1 rounded text-[#00E0B8] border border-[#00E0B8]/30">{t}</span>)}
+             </div>
+          </div>
+          <div className="p-6 flex-1 flex flex-col">
+            <h4 className="text-xl font-bold mb-2">{p.name}</h4>
+            <p className="text-gray-400 mb-4 flex-1 text-sm md:text-base">{p.description}</p>
+            <div className="flex gap-4 justify-between">
+              <a href={p.github} target="_blank" className="text-[#00A1E0] hover:text-white hover:bg-[#00A1E0] transition-all duration-300 flex items-center gap-2 text-sm md:text-base px-3 py-1 rounded-lg relative z-20">Source <Github size={16}/></a>
+              <a href={p.demo} target="_blank" className="text-[#00A1E0] hover:text-white hover:bg-[#00A1E0] transition-all duration-300 flex items-center gap-2 text-sm md:text-base px-3 py-1 rounded-lg relative z-20">Live <ExternalLink size={16}/></a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </motion.section>
+);
+
+const TimelineItem = ({ data }) => (
+  <div className="flex gap-4 md:gap-6 mb-12 relative">
+    <div className="w-40 hidden md:block text-[#00A1E0] font-bold text-base whitespace-nowrap">{data.duration}</div>
+    <div className="relative flex flex-col items-center">
+      <div className="w-4 h-4 rounded-full bg-[#00A1E0] z-10 shadow-[0_0_10px_#00A1E0]"></div>
+      <div className="w-0.5 h-full bg-gray-800 absolute top-4"></div>
+    </div>
+    <div className="glass-card p-5 md:p-6 rounded-xl flex-1">
+      <div className="md:hidden text-[#00A1E0] font-bold text-xs mb-1">{data.duration}</div>
+      <h4 className="text-lg md:text-xl font-bold leading-tight">{data.title}</h4>
+      <p className="text-[#00A1E0] text-sm mb-4">{data.company || data.school}</p>
+      <ul className="space-y-2 text-sm md:text-base text-gray-400">
+        {data.details.map((d, i) => <li key={i} className="flex gap-2"><span>▸</span>{d}</li>)}
+      </ul>
+    </div>
   </div>
 );
+
+const Experience = () => (
+  <motion.section id="experience" className="py-24 px-4 max-w-5xl mx-auto" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+    <div className="text-center mb-16">
+        <h2 className="text-[#00A1E0] font-bold uppercase mb-2">Professional Journey</h2>
+        <h3 className="text-3xl md:text-4xl font-bold">Work Experience</h3>
+      </div>
+    {config.experience.map((e, i) => <TimelineItem key={i} data={e} />)}
+  </motion.section>
+);
+
+const Education = () => (
+  <motion.section id="education" className="py-24 px-4 max-w-5xl mx-auto" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+    <div className="text-center mb-16">
+        <h2 className="text-[#00A1E0] font-bold uppercase mb-2">Academic Background</h2>
+        <h3 className="text-3xl md:text-4xl font-bold">Education Journey</h3>
+      </div>
+    {config.education.map((e, i) => <TimelineItem key={i} data={e} />)}
+  </motion.section>
+);
+
+const Certificates = () => {
+  const [selected, setSelected] = useState(null);
+  return (
+    <motion.section id="certificates" className="py-24 px-4 max-w-7xl mx-auto" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+      <div className="text-center mb-16">
+        <h2 className="text-[#00A1E0] font-bold uppercase mb-2">Credentials</h2>
+        <h3 className="text-3xl md:text-4xl font-bold">Certifications & Awards</h3>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {config.certificates.map((cert, i) => (
+          <div key={i} className="glass-card p-6 rounded-xl hover:border-[#00A1E0]/50 transition-all cursor-pointer group hover:transform hover:scale-105 hover:shadow-[0_0_20px_rgba(0,161,224,0.3)] h-full flex flex-col" onClick={() => setSelected(cert)}>
+            <div className="flex justify-between items-start mb-4">
+               <BookOpen size={24} className="text-[#00A1E0]" />
+               <ExternalLink size={16} className="text-gray-600 group-hover:text-[#00A1E0]" />
+            </div>
+            <div className="flex-1 flex flex-col">
+              <h4 className="font-bold text-base md:text-lg mb-1">{cert.name}</h4>
+              <p className="text-gray-400 mb-2 text-sm md:text-base">{cert.issuer}</p>
+              <p className="text-xs md:text-sm text-[#00A1E0] mb-auto">{cert.type} • {cert.date}</p>
+            </div>
+            <button className="w-full py-2 bg-[#00A1E0]/20 text-[#00A1E0] rounded-lg hover:bg-[#00A1E0] hover:text-white transition-all duration-300 text-sm md:text-base relative z-20 mt-4">View Certificate</button>
+          </div>
+        ))}
+      </div>
+      <AnimatePresence>
+        {selected && (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setSelected(null)} className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[70] flex items-center justify-center p-4">
+            <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }} onClick={e => e.stopPropagation()} className="glass p-6 md:p-8 max-w-4xl w-full rounded-2xl relative overflow-y-auto max-h-[90vh]">
+              <button onClick={() => setSelected(null)} className="absolute top-4 right-4 text-gray-400 hover:text-white">✕</button>
+              <h3 className="text-xl md:text-2xl font-bold mb-2">{selected.name}</h3>
+              <p className="text-[#00A1E0] text-sm md:text-base mb-4">{selected.issuer} • {selected.date}</p>
+              <div className="bg-gray-800 rounded-lg overflow-hidden border border-sf-blue/20 h-64 md:h-96 flex items-center justify-center">
+                <img src={selected.image} alt={selected.name} className="w-full h-full object-contain" />
+              </div>
+              <div className="mt-6 space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-black/30 rounded-lg p-3 md:p-4 text-center">
+                    <p className="text-xs text-gray-400 mb-1">Status</p>
+                    <p className="text-xs md:text-sm text-green-400 font-medium">✓ Verified</p>
+                  </div>
+                  <div className="bg-black/30 rounded-lg p-3 md:p-4 text-center">
+                    <p className="text-xs text-gray-400 mb-1">Type</p>
+                    <p className="text-xs md:text-sm text-white font-medium">{selected.type}</p>
+                  </div>
+                </div>
+                <div className="bg-black/30 rounded-lg p-4">
+                  <p className="text-xs text-gray-400 mb-2">Description</p>
+                  <p className="text-xs md:text-sm text-gray-300">{selected.desc || `Validated proficiency in ${selected.name.toLowerCase()}.`}</p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.section>
+  );
+};
+
+const Contact = () => (
+  <motion.section id="contact" className="py-24 px-4" initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} transition={{ duration: 0.5 }} viewport={{ once: true }}>
+    <div className="max-w-4xl mx-auto glass p-8 md:p-12 rounded-3xl text-center transition-all duration-300 hover:shadow-[0_0_30px_rgba(0,161,224,0.3)]">
+      <div className="mb-12">
+        <h2 className="text-[#00A1E0] font-bold uppercase mb-2">Get In Touch</h2>
+        <h3 className="text-3xl md:text-4xl font-bold mb-4">Let's Connect <span className="text-gradient">Through</span></h3>
+      </div>
+      <p className="text-gray-400 mb-12 text-sm md:text-base">Currently looking for new opportunities in the Salesforce ecosystem.</p>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+        <a 
+          href={`mailto:${config.info.email}`}
+          className="group flex items-center gap-4 px-4 md:px-6 py-4 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 hover:border-[#00A1E0] transition-all duration-300 shadow-md"
+        >
+          <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#00A1E0] flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Mail size={20} className="text-white" />
+          </div>
+          <div className="text-left overflow-hidden">
+            <p className="text-[10px] text-gray-400 uppercase tracking-tighter">Email</p>
+            <p className="text-white text-xs md:text-sm font-medium truncate">{config.info.email}</p>
+          </div>
+        </a>
+        <a href="https://wa.me/918669341360" target="_blank" className="group flex items-center gap-4 px-4 md:px-6 py-4 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 hover:border-green-500 transition-all duration-300 shadow-md">
+          <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#25D366] flex items-center justify-center group-hover:scale-110 transition-transform">
+            <svg className="w-5 h-5 md:w-6 md:h-6 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.937 3.659 1.432 5.628 1.433h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+          </div>
+          <div className="text-left">
+            <p className="text-[10px] text-gray-400 uppercase tracking-tighter">WhatsApp</p>
+            <p className="text-white text-xs md:text-sm font-medium">+91 86693 41360</p>
+          </div>
+        </a>
+        <a href={config.info.linkedin} target="_blank" className="group flex items-center gap-4 px-4 md:px-6 py-4 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 hover:border-blue-600 transition-all duration-300 shadow-md">
+          <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-blue-600 flex items-center justify-center group-hover:scale-110 transition-transform">
+            <Linkedin size={20} className="text-white" />
+          </div>
+          <div className="text-left">
+            <p className="text-[10px] text-gray-400 uppercase tracking-tighter">LinkedIn</p>
+            <p className="text-white text-xs md:text-sm font-medium">Connect</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </motion.section>
+);
+
+const Footer = () => (
+  <footer className="relative pt-10 pb-16 border-t border-white/10 bg-[#020617] text-gray-400">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="flex flex-col md:flex-row justify-between items-center gap-8">
+      <div className="flex flex-col items-center md:items-start gap-3">
+        <div className="flex items-center gap-2">
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg" 
+            alt="Salesforce" 
+            className="h-8 w-auto opacity-90"
+          />
+          <span className="text-white font-semibold text-xl tracking-tight">
+            {config.info.name}
+          </span>
+        </div>
+        <p className="text-sm text-gray-500 max-w-xs text-center md:text-left">
+          Crafting scalable cloud solutions with Apex, LWC, and the MERN stack.
+        </p>
+      </div>
+
+      <div className="flex flex-col items-center md:items-end gap-4">
+        <div className="flex gap-8 text-sm font-medium">
+          <a href={config.info.linkedin} target="_blank" className="hover:text-[#00A1E0] transition-all duration-300 hover:scale-110 transform inline-block">LinkedIn</a>
+          <a href={config.info.github} target="_blank" className="hover:text-[#00A1E0] transition-all duration-300 hover:scale-110 transform inline-block">GitHub</a>
+        </div>
+        <p className="text-xs tracking-widest uppercase text-gray-600">
+          © 2026 • Designed & Developed by {config.info.name}
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>
+);
+
+const App = () => {
+  useSmoothScroll();
+  return (
+    <div className="bg-[#0a0f16] text-white min-h-screen font-sans selection:bg-[#00A1E0] relative overflow-x-hidden">
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .glass { background: rgba(16, 23, 35, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+        .glass-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
+        .glass-card:hover { transform: translateY(-4px); background: rgba(255,255,255,0.04); }
+        .text-gradient { background: linear-gradient(to right, #fff, #00A1E0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .text-gradient-blue { background: linear-gradient(to right, #00A1E0, #00E0B8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        @keyframes shadow-blink {
+          0%, 100% { box-shadow: 0 0 10px rgba(21, 137, 238, 0.4); }
+          50% { box-shadow: 0 0 30px rgba(21, 137, 238, 0.9); }
+        }
+        .animate-shadow-blink { animation: shadow-blink 2s ease-in-out infinite; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #0a0f16; }
+        ::-webkit-scrollbar-thumb { background: #00A1E0; border-radius: 10px; }
+        
+        /* Mobile specific fixes to prevent bulky/messy UI without affecting desktop sizing */
+        @media (max-width: 768px) {
+          .glass-card { padding: 1.25rem; }
+          section { padding-top: 4rem; padding-bottom: 4rem; }
+        }
+      `}</style>
+      <ScrollProgress />
+      <CustomCursor />
+      <CanvasBackground />
+      <Navbar />
+      <main>
+        <Hero />
+        <About />
+        <Skills />
+        <Projects />
+        <Experience />
+        <Education />
+        <Certificates />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
+  );
+};
 
 export default App;
