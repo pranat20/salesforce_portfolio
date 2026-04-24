@@ -581,7 +581,8 @@ const Contact = () => (
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         <a 
-          href={`mailto:${config.info.email}`}
+          href={`https://mail.google.com/mail/?view=cm&fs=1&to=${config.info.email}&su=Hello%20from%20Portfolio%20Website&body=Hi%20Pranat%2C%20I%20found%20your%20portfolio%20and%20wanted%20to%20connect...`}
+          target="_blank" rel="noopener noreferrer"
           className="group flex items-center gap-4 px-4 md:px-6 py-4 rounded-xl bg-white/10 border border-white/20 hover:bg-white/20 hover:border-[#00A1E0] transition-all duration-300 shadow-md"
         >
           <div className="flex-shrink-0 w-10 h-10 md:w-12 md:h-12 rounded-full bg-[#00A1E0] flex items-center justify-center group-hover:scale-110 transition-transform">
